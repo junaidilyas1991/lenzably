@@ -23,6 +23,7 @@ let routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full',
   },
+
   // {
   //   path: '',
   //   pathMatch: 'full',
