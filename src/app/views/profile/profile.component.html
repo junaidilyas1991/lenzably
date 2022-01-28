@@ -1,0 +1,20 @@
+<div [ngClass]="{'landing-page public-pages': true,'show-mobile-menu': showMobileMenu}">
+
+  <app-lb-nav-mobile></app-lb-nav-mobile>
+
+  <div class="main-container" id="home">
+
+    <app-lb-nav (mobileMenuButtonEvent)="showMobileMenu=!showMobileMenu"></app-lb-nav>
+
+    <div class="content-container">
+
+
+      <app-profile-inner [user]="user"></app-profile-inner>
+
+    </div>
+
+  </div>
+
+  <app-lb-footer></app-lb-footer>
+
+</div>

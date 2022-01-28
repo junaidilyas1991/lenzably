@@ -1,0 +1,11 @@
+<div class="mobile-menu" (click)="$event.stopPropagation()">
+  <a class="logo-mobile">
+    <img src="/assets/logos/black.svg" alt="" style=" width: 150px; margin: 0">
+  </a>
+
+  <app-lb-nav-search></app-lb-nav-search>
+
+  <app-lb-nav-menu [isMobileMenu]="true"></app-lb-nav-menu>
+
+</div>
+

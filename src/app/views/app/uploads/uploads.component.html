@@ -1,0 +1,107 @@
+<app-list-page-header (changeDropdownItem)="changeDropdownItem($event)"
+                      (changeOrderBy)="changeOrderBy($event)"
+                      (itemsPerPageChange)="itemsPerPageChange($event)"
+                      (searchKeyUp)="searchKeyUp($event)" [showCheckbox]="true"
+                      (selectAllChange)="selectAllChange($event)" [displayMode]="displayMode"
+                      [dropDownItems]="[{ label: 'Edit names', value: 'name' }, { label: 'Edit descriptions', value: 'description' }, { label: 'Edit tags', value: 'tags' }, { label: 'Edit category', value: 'category' } ]"
+                      [itemOptionsOrders]="[{ label: 'File Name', value: 'name' }, {label: 'Latest First' , value: 'latest'},
+                      {label: 'Oldest First' , value : 'oldest'}]"
+                      [itemOptionsPerPage]="[50,100,200]" [itemsPerPage]="itemsPerPage"
+                      [selectAllState]="selectAllState" [showDisplayMode]="false"
+                      [showOrderBy]="true" [title]="collection?collection.name:'Loading...'"
+>
+</app-list-page-header>
+<app-edit-product-name-modal #editProductNameModalComponent></app-edit-product-name-modal>
+<app-edit-product-description-modal #editProductDescriptionModalComponent></app-edit-product-description-modal>
+<app-edit-product-categories-modal #editProductCategoriesModalComponent></app-edit-product-categories-modal>
+<app-product-edit-tags-modal #editProductTagsModalComponent></app-product-edit-tags-modal>
+<app-edit-publish-setting-modal #editPublishSettingModalComponent></app-edit-publish-setting-modal>
+<div *ngIf="error" style="margin-bottom: 20px">
+  <alert [dismissible]="false" type="danger rounded">
+    {{error}}
+  </alert>
+</div>
+<div style="margin-bottom: 20px">
+  <dropzone (error)="onUploadError($event)" (success)="onUploadSuccess($event)" [config]="config"
+            [message]="'form-components.dropzone-message' | translate"></dropzone>
+</div>
+
+<context-menu #basicMenu>
+  <ng-template (execute)="onContextMenuClick('name',$event.item)" contextMenuItem let-item>
+    <i class="simple-icon-pencil mr-1"></i> <span>Edit name</span>
+  </ng-template>
+  <ng-template (execute)="onContextMenuClick('description',$event.item)" contextMenuItem let-item>
+    <i class="simple-icon-paper-clip mr-1"></i> <span>Edit description</span>
+  </ng-template>
+  <ng-template (execute)="onContextMenuClick('tags',$event.item)" contextMenuItem let-item>
+    <i class="simple-icon-tag mr-1"></i><span>Edit tags</span>
+  </ng-template>
+  <ng-template (execute)="onContextMenuClick('category',$event.item)" contextMenuItem let-item>
+    <i class="simple-icon-list mr-1"></i><span>Edit category</span>
+  </ng-template>
+  <ng-template (execute)="onContextMenuClick('publishing',$event.item)" contextMenuItem let-item>
+    <i class="simple-icon-list mr-1"></i><span>Publishing</span>
+  </ng-template>
+</context-menu>
+
+
+<div class="row">
+  <div *ngIf="displayMode==='image'" class="col-12 list">
+    <div class="row">
+      <div *ngFor="let p of assets; let i=index" [contextMenuSubject]="p" [contextMenu]="basicMenu"
+           class="col-xl-2 col-lg-4 col-12 col-sm-6 mb-4" >
+        <div [ngClass]="{'card': true, 'active':isSelected(p)}" style="min-height: 580px;">
+          <div class="position-relative">
+            <a href="javascript:;"><img [alt]="p?.name" [src]="p.previews.p_200x200.mediaLink" loading="lazy" class="card-img-top img-contain"></a>
+            <span
+              [class]="'badge badge-pill position-absolute badge-top-left badge-secondary'">{{i}}</span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-1">
+                <div class="custom-control custom-checkbox pl-1">
+                  <label class="custom-control custom-checkbox  mb-0">
+                    <input (change)="onSelect(p)" [checked]="isSelected(p)" [id]="'customCheck'+i"
+                           class="custom-control-input"
+                           type="checkbox">
+                    <label [for]="'customCheck'+i" class="custom-control-label"></label>
+                  </label>
+                </div>
+              </div>
+              <div class="col-11">
+                <a href="javascript:;">
+                  <p class="list-item-heading mb-1 pt-1">{{p.name}}</p>
+                </a>
+
+                <p class="text-muted text-small mb-2 font-weight-light">{{p.updated|date}}</p>
+                <footer>
+                  <div>
+                    <!--                    //category-->
+                    <span *ngIf="p.category"
+                          class="badge badge-pill badge-dark mb-1 mr-1">in: {{p.category.label}}</span>
+                    <span *ngFor="let tag of p.tags" class="badge badge-pill badge-light mb-1 mr-1">{{tag}}</span>
+                  </div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <pagination (pageChanged)="pageChanged($event)" [(ngModel)]="currentPage" [customNextTemplate]="nextTemplate"
+                [customPreviousTemplate]="prevTemplate"
+                [itemsPerPage]="itemsPerPage" [maxSize]="5" [rotate]="true"
+                [totalItems]="totalItem" class="justify-content-center">
+    </pagination>
+  </div>
+</div>
+
+<ng-template #nextTemplate let-currentPage="currentPage" let-disabled="disabled">
+  <i class='simple-icon-arrow-right'></i>
+</ng-template>
+<ng-template #prevTemplate let-currentPage="currentPage" let-disabled="disabled">
+  <i class='simple-icon-arrow-left'></i>
+</ng-template>

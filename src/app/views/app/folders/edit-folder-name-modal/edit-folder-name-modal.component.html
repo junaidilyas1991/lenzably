@@ -1,0 +1,57 @@
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Collection</h4>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close pull-right" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form  [formGroup]="form" *ngIf="form">
+        <label>Name</label>
+          <input (input)="onChange($event)" class="form-control" type="text" formControlName="name" placeholder="Four or more letters"/>
+
+
+      <div class="mt-4">
+        <label>Description</label>
+        <textarea  (input)="onChange($event)" formControlName="description" class="form-control" rows="3"
+                   placeholder="Enter 10 characters or more"></textarea>
+      </div>
+    </form>
+
+    <div class="mt-4">
+      <label>Tags</label>
+      <ng-select [(ngModel)]="tags" [addTag]="addTagFn" [hideSelected]="true" [items]="[]" bindLabel="name"
+                 multiple="true">
+      </ng-select>
+    </div>
+
+    <div class="mt-4">
+      <label>Category</label>
+      <label class="w-100">
+        <ng-select [(ngModel)]="category" [searchable]="false" appearance="outline">
+          <ng-option *ngFor="let item of categories" [value]="item">{{item.label}}
+          </ng-option>
+        </ng-select>
+      </label>
+    </div>
+
+    <div style="margin-top: 20px" *ngIf="showSuccess">
+      <alert  [dismissible]="true" type="success rounded">
+        Your changes have been saved
+      </alert>
+    </div>
+    <div style="margin-top: 20px; min-height: 50px" class="{{!error?'hidden':''}}">
+      <alert type="danger rounded">
+        {{error}}
+      </alert>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button (click)="closeClicked()" class="btn btn-outline-primary"
+            type="button">{{'pages.cancel' | translate }}</button>
+    <button (click)="submit()" class="btn btn-primary float-right"
+            type="button">{{ 'pages.submit' | translate}}</button>
+  </div>
+</ng-template>

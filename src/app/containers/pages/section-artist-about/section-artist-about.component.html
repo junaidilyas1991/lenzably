@@ -1,0 +1,46 @@
+<div class="section-artist-about" [style.background-image]="'url(/assets/img/social/header.jpg)'">
+
+
+  <div class="position-absolute card-top-buttons" *ngIf="editMode"><button class="btn btn-outline-white icon-button" (click)="openModalWithComponent()"><i class="simple-icon-pencil"></i></button></div>
+
+
+  <div class="section-artist-about__content">
+    <img alt="Profile" [src]="user?.avatar" (click)="openLightbox('/assets/img/profiles/1.jpg')"
+         class="img-thumbnail card-img social-profile-img c-pointer">
+
+    <div class="text-center pt-4">
+      <p class="list-item-heading pt-2">{{user?.name}}</p>
+    </div>
+    <p class="mb-3">
+      {{user?.details}}
+    </p>
+
+    <p class="text-small mb-2">{{'pages.location' | translate}}</p>
+    <p class="mb-3">{{user?.location}}</p>
+
+    <p class="text-small mb-2">{{'pages.interests' | translate}}</p>
+    <p class="mb-3">
+      <a *ngFor="let interest of user?.interests" href="#">
+        <span class="badge badge-pill badge-outline-light mb-1 mr-2">{{interest.name}}</span>
+      </a>
+    </p>
+
+    <p class="text-small mb-2">{{'pages.contact' | translate}}</p>
+    <div class="social-icons">
+      <ul class="list-unstyled list-inline">
+        <li class="list-inline-item">
+          <a [href]="user?.facebook"><i class="simple-icon-social-facebook"></i></a>
+        </li>
+        <li class="list-inline-item">
+          <a [href]="user?.twitter"><i class="simple-icon-social-twitter"></i></a>
+        </li>
+        <li class="list-inline-item">
+          <a [href]="user?.instagram"><i class="simple-icon-social-instagram"></i></a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+
+</div>

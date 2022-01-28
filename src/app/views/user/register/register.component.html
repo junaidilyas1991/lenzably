@@ -1,0 +1,57 @@
+<div class="card auth-card">
+  <div class="position-relative image-side ">
+    <p class=" text-white h2">MAGIC IS IN THE DETAILS</p>
+    <p class="white mb-0">
+      Please use the form to register.
+      <br>If you are a member, please
+      <a routerLink="/user/login" class="white white-underline-link">login</a>.
+    </p>
+  </div>
+  <div class="form-side">
+    <a class="c-pointer">
+      <span class="logo-single"></span>
+    </a>
+    <h6 class="mb-4">Register</h6>
+
+    <form *ngIf="registerForm" [formGroup]="registerForm"   (ngSubmit)="onSubmit()">
+      <label class="form-group has-float-label">
+        <input (input)="onChange($event)" class="form-control" type="text" formControlName="fullName" placeholder="Four or more letters"/>
+        <span>Full Name</span>
+      </label>
+      <label class="form-group has-float-label">
+        <input (input)="onChange($event)" class="form-control" formControlName="email" type="email" placeholder="Enter your email"/>
+        <span>Email</span>
+      </label>
+      <label class="form-group has-float-label">
+        <input (input)="onChange($event)" class="form-control" formControlName="password" type="password" placeholder="Enter your password"/>
+        <span>Password</span>
+      </label>
+
+      <label class="form-group has-float-label">
+        <input  (input)="onChange($event)" class="form-control" formControlName="confirmPassword" type="password"
+                placeholder="Enter your password again to confirm" />
+        <span>Confirm Password</span>
+      </label>
+
+      <div  class="d-flex justify-content-between align-items-center">
+        <a routerLink="/user/forgot-password">{{ 'user.forgot-password' | translate }}?</a>
+        <app-state-button [btnClass]="'btn btn-primary btn-lg btn-shadow'" [currentState]="buttonState"
+          [isDisabled]="buttonDisabled" (click)="onSubmit()">
+          Register
+        </app-state-button>
+      </div>
+
+      <div style="margin-top: 20px" *ngIf="showSuccess">
+        <alert  [dismissible]="true" type="success rounded">
+          Your changes have been saved
+        </alert>
+      </div>
+      <div style="margin-top: 20px; min-height: 50px" class="{{!error?'hidden':''}}">
+      <alert type="danger rounded">
+        {{error}}
+      </alert>
+    </div>
+    </form>
+  </div>
+</div>
+<simple-notifications></simple-notifications>

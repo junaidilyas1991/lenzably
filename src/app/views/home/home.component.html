@@ -1,0 +1,43 @@
+<div [ngClass]="{'landing-page': true,'show-mobile-menu': showMobileMenu}">
+
+  <app-lb-nav-mobile></app-lb-nav-mobile>
+
+  <div class="main-container" id="home">
+
+    <app-lb-nav (mobileMenuButtonEvent)="showMobileMenu=!showMobileMenu"></app-lb-nav>
+
+    <div class="content-container">
+
+      <div class="main-banner position-relative" [style.background-image]="'url(/assets/img//details/5.jpg)'">
+        <div class="home-text">
+          <h2>World's most affordable <br/>Images and Videos</h2>
+
+          <div class="home-page-search">
+            <i class="iconsminds-magnifi-glass"></i>
+            <ng-select [items]="peopleAsyncSearch | async" bindLabel="name" [addTag]="true" [multiple]="true"
+                       [hideSelected]="true" [trackByFn]="trackByFn" [minTermLength]="2"
+                       [loading]="peopleLoadingAsyncSearch" placeholder="Search the perfect creative images and videos"
+                       typeToSearchText="Please enter 2 or more characters" [typeahead]="peopleInputAsyncSearch"
+                       [(ngModel)]="selectedPersonsAsyncSearch">
+            </ng-select>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="margin: 30px 35px 20px">
+        <app-lb-tags-list [tagsList]="tagsList" [alignCenter]="true"></app-lb-tags-list>
+      </div>
+
+      <app-lb-grid></app-lb-grid>
+
+    </div>
+
+  </div>
+
+  <app-lb-footer></app-lb-footer>
+
+</div>
+
+
+
